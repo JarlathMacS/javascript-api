@@ -40,6 +40,7 @@ async function postForm(e) {
         // console.log(data);
         displayErrors(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 
@@ -82,6 +83,7 @@ async function getStatus(e) {
     if (response.ok) {
         displayStatus(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 }
@@ -95,4 +97,17 @@ function displayStatus(data) {
     document.getElementById('results-content').innerHTML = results;
 
     resultsModal.show();
+}
+
+function displayException(data) {
+    let errorHeading = 'An Exception Occurred';
+    let errorMessage = `<div class='status-code'>The API returned status code ${data.status_code}</div>`;
+    errorMessage += `<div class='error-number'>Error number: <b>${data.error_no}</b></div>`;
+    errorMessage += `<div class='error-text'>Error text: <b>${data.error}</b></div>`;
+
+    document.getElementById('resultsModalTitle').innerText = errorHeading;
+    document.getElementById('results-content').innerHTML = errorMessage;
+
+    resultsModal.show();
+    return 0;
 }
